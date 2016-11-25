@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/formvalidation.min.css">
+    <script src="//cdn.bootcss.com/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/formvalidation.js"></script>
+</head>
+<body>
+<div class="container" id="test" style="width:500px;background:#ccc;">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="inputEmail3" class="col-sm-2 control-label">Email</label>
+            <div class="col-sm-10">
+                <input type="email" name="shortCode" class="form-control" id="inputEmail3" placeholder="Email">
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="inputPassword3" class="col-sm-2 control-label">Password</label>
+            <div class="col-sm-10">
+                <input type="password" name="fullCode" class="form-control" id="inputPassword3" placeholder="Password">
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox"> Remember me
+                    </label>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="submit" id="validateButton" class="btn btn-success">validateButton</button>
+                <button type="submit"  class="btn btn-danger">skipButton</button>
+            </div>
+        </div>
+    </form>
+    <script>
+        let $form=$('#test');
+        $form.formValidation({
+            framework: 'bootstrap',     //依赖的框架
+            excluded: ':disabled',      //排除某些不验证的属性
+            autoFocus:true,     //当验证不通过的时候,自动聚焦到第一个错误的位置,默认是true
+            button:{    //确定提交按钮,以防多次提交
+                selector: '#validateButton',    //选择器
+                disabled: 'disabled'    //禁用的属性(根据framework而定)
+            },
+            icon: {             //依赖的图标
+                valid: 'glyphicon glyphicon-ok',
+                invalid: 'glyphicon glyphicon-remove',
+                validating: 'glyphicon glyphicon-refresh'
+            },
+            err: {
+                container: 'tooltip'    //指定错误信息的显示位置
+            },
+            live:'enabled',       //设置验证的方式(即时验证,提交验证)
+            locale: 'zh_CN',
+            threshold:3,        //前三个字段不验证
+
+            row:{
+                selector:null,  //icon的显示的位置
+                valid:'',
+                invalid:''
+            },
+            fields: {
+                fullCode: {
+                    validators: {
+                        notEmpty: {
+                            message:'message'   //您可以为任何字段指定的错误消息
+                        },
+                        blank: {}
+                    }
+                },
+                shortCode: {
+                    verbose: false,         //是否显示每个验证器的详细信息,默认时true
+                    trigger: 'keyup blur',    //设置验证的方式(焦点离开时,键盘抬起时)
+                    validators: {
+                        notEmpty: {},
+                        blank: {
+                            enabled: true       //是否验证
+                        }
+                    },
+                    threshold: 5         //前5个字段不验证
+                }
+            }
+        }).on('success.form.fv',function(){
+            alert(0)
+        });
+    </script>
+</div>
+</body>
+</html>
